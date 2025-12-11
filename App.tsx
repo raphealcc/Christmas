@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { generateGamePool } from './utils/gameLogic';
 import { GiftBoxState, ParticipantGroup } from './types';
 import { TOTAL_BOXES } from './constants';
@@ -6,10 +6,11 @@ import GiftGrid from './components/GiftGrid';
 import ParticleBackground from './components/ParticleBackground';
 import ThreeParticleReveal from './components/ThreeParticleReveal';
 import Modal from './components/Modal';
-import { RefreshCw } from 'lucide-react';
+import { RefreshCw, Play } from 'lucide-react';
 
 const App: React.FC = () => {
   // --- State ---
+  const [hasStarted, setHasStarted] = useState(false); // New state for Welcome Screen
   const [initialized, setInitialized] = useState(false);
   const [groupPool, setGroupPool] = useState<ParticipantGroup[]>([]);
   const [boxes, setBoxes] = useState<GiftBoxState[]>([]);
@@ -25,9 +26,11 @@ const App: React.FC = () => {
 
   // --- Logic ---
 
-  useEffect(() => {
+  // Called when user clicks "Enter" on Welcome Screen
+  const handleStartApp = () => {
+    setHasStarted(true);
     initializeGame();
-  }, []);
+  };
 
   const initializeGame = () => {
     const pool = generateGamePool();
@@ -89,8 +92,33 @@ const App: React.FC = () => {
 
   // --- Render ---
 
-  if (!initialized) return <div className="min-h-screen bg-black flex items-center justify-center text-christmas-gold font-display animate-pulse">Summoning Holiday Spirit...</div>;
+  // 1. Welcome Screen
+  if (!hasStarted) {
+    return (
+      <div className="fixed inset-0 bg-black flex flex-col items-center justify-center z-50 overflow-hidden">
+        <ParticleBackground />
+        
+        <div className="relative z-10 text-center p-6 animate-fade-in-up">
+          <h1 className="text-5xl md:text-8xl font-display text-transparent bg-clip-text bg-gradient-to-r from-christmas-gold via-white to-christmas-gold drop-shadow-[0_0_25px_rgba(212,175,55,0.6)] tracking-widest mb-8">
+            LUXE NOËL
+          </h1>
+          
+          <button 
+            onClick={handleStartApp}
+            className="group relative px-12 py-4 bg-transparent overflow-hidden rounded-full transition-all duration-500 hover:shadow-[0_0_40px_rgba(212,175,55,0.6)] border border-christmas-gold/50 hover:border-christmas-gold"
+          >
+            <div className="absolute inset-0 w-full h-full bg-christmas-gold/10 group-hover:bg-christmas-gold/20 transition-all duration-500"></div>
+            <div className="relative flex items-center gap-3 text-christmas-gold font-display tracking-[0.3em] text-lg uppercase">
+              <Play size={20} className="fill-current" />
+              <span>Enter The Exchange</span>
+            </div>
+          </button>
+        </div>
+      </div>
+    );
+  }
 
+  // 2. Main App
   return (
     <div className="min-h-screen relative overflow-x-hidden flex flex-col font-sans selection:bg-christmas-gold selection:text-black bg-black">
       
@@ -103,7 +131,7 @@ const App: React.FC = () => {
       )}
 
       {/* Header */}
-      <header className="relative pt-12 pb-8 text-center z-10 px-4 pointer-events-none">
+      <header className="relative pt-12 pb-8 text-center z-10 px-4 pointer-events-none animate-fade-in">
         <h1 className="text-4xl md:text-7xl font-display text-transparent bg-clip-text bg-gradient-to-r from-christmas-gold via-white to-christmas-gold drop-shadow-[0_0_15px_rgba(212,175,55,0.6)] tracking-widest mb-4">
           LUXE NOËL
         </h1>
@@ -114,11 +142,11 @@ const App: React.FC = () => {
       </header>
 
       {/* Controls */}
-      <div className="flex justify-center gap-8 mb-4 z-20">
+      <div className="flex justify-center gap-8 mb-4 z-20 items-center animate-fade-in">
         {groupPool.length === 0 ? (
           <button 
             onClick={initializeGame}
-            className="flex items-center gap-2 px-6 py-2 rounded-full border border-christmas-gold/40 text-christmas-gold hover:bg-christmas-gold hover:text-black transition-all duration-300 uppercase tracking-widest text-xs"
+            className="flex items-center gap-2 px-6 py-2 rounded-full border border-christmas-gold/40 text-christmas-gold hover:bg-christmas-gold hover:text-black transition-all duration-300 uppercase tracking-widest text-xs pointer-events-auto cursor-pointer"
           >
             <RefreshCw size={14} />
             <span>New Ritual</span>
@@ -131,7 +159,7 @@ const App: React.FC = () => {
       </div>
 
       {/* Main Grid */}
-      <main className="flex-grow z-10 pb-20">
+      <main className="flex-grow z-10 pb-20 animate-fade-in-up">
         <GiftGrid boxes={boxes} onBoxClick={handleBoxClick} />
       </main>
 

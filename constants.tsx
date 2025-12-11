@@ -12,5 +12,3 @@ export const PARTICIPANT_NAMES = [
   "顾欣", "李晓琳", "马亭亭", "钱伟", "王梦琪", "王姝晴", "周兰", "程呈", "王忆馨", "吴奕乐",
   "于国昊", "汪筱涔", "汤雨萌", "王恒", "范旭艳"
 ];
-
-export const BackgroundMusic = "https://example.com/jingle-bells.mp3"; // Placeholder

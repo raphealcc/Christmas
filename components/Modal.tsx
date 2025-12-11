@@ -62,28 +62,42 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, group }) => {
             </h2>
           </div>
 
-          {/* The Revealed Names */}
+          {/* The Revealed Names - Enhanced Animation */}
           <div className="flex flex-wrap justify-center gap-8 my-10 relative z-10">
             {group.members.map((memberName, idx) => (
               <div 
                 key={idx} 
-                className="relative group perspective-500"
-                style={{ animationDelay: `${idx * 150}ms` }}
+                className={`relative group perspective-500 transition-all duration-1000 ease-out`}
+                style={{ 
+                  animationDelay: `${idx * 200}ms`,
+                  opacity: showContent ? 1 : 0,
+                  transform: showContent ? 'scale(1)' : 'scale(0.5)'
+                }}
               >
-                {/* Glowing Orb Container */}
-                <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border border-christmas-gold/50 bg-gradient-to-b from-black to-[#1a1a1a] flex items-center justify-center shadow-[0_0_40px_rgba(212,175,55,0.3)] animate-float">
+                {/* Glowing Orb Container with pop effect */}
+                <div 
+                  className={`
+                    w-32 h-32 md:w-40 md:h-40 rounded-full border border-christmas-gold/50 bg-gradient-to-b from-black to-[#1a1a1a] flex items-center justify-center shadow-[0_0_60px_rgba(212,175,55,0.4)]
+                    ${showContent ? 'animate-bounce-slight' : ''}
+                  `}
+                >
                   
                   {/* Particles around orb */}
                   <div className="absolute -inset-2 border border-christmas-gold/20 rounded-full animate-pulse-gold"></div>
                   
-                  <span className="font-sans font-bold text-2xl md:text-3xl text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] px-2 text-center break-words">
+                  {/* Flash Effect on Appear */}
+                  <div 
+                    className={`absolute inset-0 bg-white rounded-full transition-opacity duration-700 pointer-events-none ${showContent ? 'opacity-0' : 'opacity-80'}`} 
+                  />
+
+                  <span className="font-sans font-bold text-2xl md:text-3xl text-white drop-shadow-[0_0_25px_rgba(255,255,255,0.9)] px-2 text-center break-words relative z-10">
                     {memberName}
                   </span>
                 </div>
                 
                 {/* Decoration under name */}
                 <div className="mt-4 flex justify-center text-christmas-gold/60">
-                  <Star size={16} fill="currentColor" />
+                  <Star size={16} fill="currentColor" className="animate-pulse" />
                 </div>
               </div>
             ))}
