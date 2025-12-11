@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Luxe Noël Exchange</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              serif: ['"Playfair Display"', 'serif'],
+              display: ['"Cinzel"', 'serif'],
+              sans: ['"Lato"', 'sans-serif'],
+            },
+            colors: {
+              christmas: {
+                red: '#4a0404',
+                redLight: '#720e1e',
+                gold: '#d4af37',
+                goldLight: '#f3e5ab',
+                green: '#0f2e18',
+                cream: '#fdfbf7'
+              }
+            },
+            animation: {
+              'pulse-gold': 'pulse-gold 2s infinite',
+              'bounce-slight': 'bounce-slight 0.3s ease-in-out',
+              'spin-slow': 'spin 8s linear infinite',
+              'fade-in': 'fadeIn 0.5s ease-out forwards',
+              'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+              'santa-fly': 'santaFly 2s ease-in-out forwards',
+              'gift-drop': 'giftDrop 0.8s cubic-bezier(0.5, 0, 0.5, 1.5) forwards',
+              'float': 'float 4s ease-in-out infinite',
+            },
+            keyframes: {
+              pulse: {
+                '0%, 100%': { opacity: 1 },
+                '50%': { opacity: 0.5 },
+              },
+              'pulse-gold': {
+                '0%, 100%': { boxShadow: '0 0 0 0px rgba(212, 175, 55, 0.2)' },
+                '50%': { boxShadow: '0 0 0 10px rgba(212, 175, 55, 0)' },
+              },
+              'bounce-slight': {
+                '0%, 100%': { transform: 'scale(1)' },
+                '50%': { transform: 'scale(0.95)' },
+              },
+              fadeIn: {
+                '0%': { opacity: 0 },
+                '100%': { opacity: 1 },
+              },
+              fadeInUp: {
+                '0%': { opacity: 0, transform: 'translateY(10px)' },
+                '100%': { opacity: 1, transform: 'translateY(0)' },
+              },
+              shimmer: {
+                '0%': { transform: 'translateX(-150%) skewX(-12deg)' },
+                '100%': { transform: 'translateX(150%) skewX(-12deg)' },
+              },
+              santaFly: {
+                '0%': { transform: 'translateX(-100vw) translateY(20px) scale(0.8)', opacity: 0 },
+                '20%': { opacity: 1 },
+                '100%': { transform: 'translateX(100vw) translateY(-20px) scale(1)', opacity: 1 },
+              },
+              giftDrop: {
+                '0%': { transform: 'translateY(-50px) scale(0.1)', opacity: 0 },
+                '100%': { transform: 'translateY(300px) scale(1)', opacity: 0 },
+              },
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-10px)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        background-color: #000000;
+        color: #fdfbf7;
+        overflow-x: hidden;
+      }
+      .perspective-1000 {
+        perspective: 1000px;
+      }
+      .transform-style-3d {
+        transform-style: preserve-3d;
+      }
+      /* Custom scrollbar for webkit */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #000; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #333; 
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #d4af37; 
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+    "react/": "https://aistudiocdn.com/react@^19.2.1/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.560.0",
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
