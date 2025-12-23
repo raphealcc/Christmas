@@ -1,11 +1,10 @@
-export interface ParticipantGroup {
-  id: string; // Unique ID for the group
-  members: string[]; // The Names of the people in this group
-  type: 'pair' | 'triplet';
+export interface GiftAssignment {
+  picker: string;    // 谁在抽奖
+  provider: string;  // 抽到了谁送的礼物
 }
 
 export interface GiftBoxState {
   index: number;
   isOpened: boolean;
-  assignedGroup: ParticipantGroup | null;
+  assignment: GiftAssignment | null;
 }

@@ -1,9 +1,6 @@
-import { ParticipantGroup } from '../types';
+import { GiftAssignment } from '../types';
 import { PARTICIPANT_NAMES } from '../constants';
 
-/**
- * Shuffles an array using the Fisher-Yates algorithm.
- */
 function shuffle<T>(array: T[]): T[] {
   const arr = [...array];
   for (let i = arr.length - 1; i > 0; i--) {
@@ -14,37 +11,26 @@ function shuffle<T>(array: T[]): T[] {
 }
 
 /**
- * Generates the pool of 22 groups (1 triplet, 21 pairs) from 45 names.
- * The order of groups is also randomized.
+ * 错位排列算法：确保每个人拿到的 provider 都不等于自己
  */
-export const generateGamePool = (): ParticipantGroup[] => {
-  // 1. Get all names
-  const allNames = [...PARTICIPANT_NAMES];
-
-  // 2. Shuffle all names completely
-  const shuffledNames = shuffle(allNames);
-
-  const groups: ParticipantGroup[] = [];
-
-  // 3. Create the Triplet (first 3 names)
-  const tripletNames = shuffledNames.slice(0, 3);
-  groups.push({
-    id: `group-triplet-${Date.now()}`,
-    members: tripletNames,
-    type: 'triplet'
-  });
-
-  // 4. Create the 21 Pairs (remaining 42 names)
-  const remainingNames = shuffledNames.slice(3);
-  for (let i = 0; i < remainingNames.length; i += 2) {
-    const pair = remainingNames.slice(i, i + 2);
-    groups.push({
-      id: `group-pair-${i}`,
-      members: pair,
-      type: 'pair'
-    });
+export const generateGiftAssignments = (): GiftAssignment[] => {
+  const pickers = [...PARTICIPANT_NAMES];
+  let providers = [...PARTICIPANT_NAMES];
+  
+  // 简单的错位排列生成：不断洗牌直到没有人抽到自己
+  // 对于 45 人的规模，计算机在毫秒级内即可完成
+  let isValid = false;
+  while (!isValid) {
+    providers = shuffle(providers);
+    isValid = pickers.every((picker, index) => picker !== providers[index]);
   }
 
-  // 5. Shuffle the groups so the triplet isn't always found first or last logically
-  return shuffle(groups);
+  // 生成指派列表
+  const assignments = pickers.map((picker, index) => ({
+    picker,
+    provider: providers[index]
+  }));
+
+  // 将指派顺序打乱，使得盒子的位置和抽奖人的顺序也是随机的
+  return shuffle(assignments);
 };
